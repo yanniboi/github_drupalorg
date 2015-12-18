@@ -1,0 +1,11 @@
+# Composer files
+vendor/*
+
+# IDE files
+.idea/*
+
+# Scripts
+*.sh
+
+# Settings
+*settings.php
