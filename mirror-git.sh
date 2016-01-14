@@ -5,18 +5,22 @@
 # Example crontab entry for periodic sync every 30 minutes:
 # */30 *  *   *   *    /path/to/github_drupalorg/mirror-git.sh &> /dev/null
 
-SOURCE=http://git.drupal.org/project/drupal.git
-TARGET=git@github.com:klausi/drupal.git
-SYNC_FOLDER=drupal-git
+TARGET=andrewbelcher@git.drupal.org:project/decoupled_auth.git
+SOURCE=https://github.com/FreelyGive/decoupled_auth.git
 
-DIRECTORY=$(dirname $0)
-cd $DIRECTORY
+SYNC_FOLDER=decoupled_auth-git
+
+DIRECTORY=$(pwd)
 
 if [ ! -d "$DIRECTORY/$SYNC_FOLDER" ]; then
-  git clone --mirror $SOURCE $SYNC_FOLDER
-  git remote add target $TARGET
+  git clone --branch 8.x-1.x $SOURCE $SYNC_FOLDER
+  cd $DIRECTORY/$SYNC_FOLDER
+  git remote add drupal_org $TARGET
+  cd $DIRECTORY
 fi
 
 cd $DIRECTORY/$SYNC_FOLDER
 git fetch origin
-git push --all target
+git checkout 8.x-1.x
+git pull origin 8.x-1.x
+git push drupal_org 8.x-1.x

@@ -22,3 +22,8 @@ $logfile = '/home/klausi/github_drupalorg.log';
 $drupal_user = 'klausi';
 // Your drupal.org password.
 $drupal_password = 'secret';
+
+// Repo branch ref to accept code pushes from.
+$push_repo = 'refs/heads/master';
+// Repo name to accept code pushes from.
+$push_ref = 'klausi/drupal';

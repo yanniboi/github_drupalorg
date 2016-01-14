@@ -56,6 +56,16 @@ function handle_pull_request($payload) {
   rmdir(dirname($file));
 }
 
+function handle_code_push($payload) {
+  global $push_repo, $push_ref;
+
+  if ($payload->ref !== $push_ref || $payload->repository->full_name !== $push_repo) {
+    logger('Pushing from wrong branch or repo.');
+  }
+
+  exec(getcwd() . '/../mirror-git.sh');
+}
+
 /**
  * Process a comment that has been created on a pull request diff.
  *
@@ -140,6 +150,14 @@ function handle_issue_comment($payload) {
  *   Optional, file name to attach as patch.
  */
 function post_comment($issue_id, $comment, $patch = NULL) {
+  global $debug;
+
+  if ($debug) {
+    print $comment;
+    return;
+  }
+
+
   static $client;
   if (!$client) {
     // Perform a user login.
